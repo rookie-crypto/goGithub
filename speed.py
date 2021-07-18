@@ -133,13 +133,13 @@ def update_win_host(ip,domain):
 
 if __name__ == '__main__':
     # 设置域名与域名对应IP文件
-    path = 'github.txt'
-    domain = 'github.com'
+    PATH = 'github.txt'
+    DOMAIN = 'github.com'
     ipList = []
 
-    update_url(path)
+    update_url(PATH)
 
-    with open(path, 'r') as f:
+    with open(PATH, 'r') as f:
         for line in f:
             ipList.append(line.strip())
 
@@ -147,9 +147,9 @@ if __name__ == '__main__':
     print("\nRECOMMEND: ")
     # 展示最优三条
     for i in range(3):
-        print("%s\t%.2fms" %(result[i][0],result[i][1]))
+        print("%s\t%.2fms" %(result[i]  [0],result[i][1]))
     # 默认将第一条建议设置为DNS解析
     if sys.platform == 'linux':
-        update_linux_host(result[i][0],domain)
+        update_linux_host(result[0][0],DOMAIN)
     elif sys.platform == 'win32':
-        update_win_host(result[i][0],domain)
+        update_win_host(result[0][0],DOMAIN)
