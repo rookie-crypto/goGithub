@@ -131,7 +131,7 @@ def update_win_host(ip,domain):
     else:
         print("HOST UPDATE FAILED\n")
 
-if __name__ == '__main__':
+def main():
     # 设置域名与域名对应IP文件
     PATH = 'github.txt'
     DOMAIN = 'github.com'
@@ -153,3 +153,5 @@ if __name__ == '__main__':
         update_linux_host(result[0][0],DOMAIN)
     elif sys.platform == 'win32':
         update_win_host(result[0][0],DOMAIN)
+if __name__ == '__main__':
+   main()
