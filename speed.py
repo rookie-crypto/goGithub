@@ -8,10 +8,10 @@ def update_url(file):
     匹配临时文件中的URL，更新该临时文件以每行显示一条IP的方式
     :param file: 临时文件路径
     """
-    with open(file,'r') as f:
+    with open(file,'r',encoding='utf-8') as f:
         ipList = set(re.findall(r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b",f.read()))
 
-    with open(file,'w') as f:
+    with open(file,'w',encoding='utf-8') as f:
         for ip in ipList:
             f.write(ip+'\n')
 
@@ -70,9 +70,9 @@ def ping_check(ips,platform):
 
     resTime = sorted(resTime.items(),key=lambda x:x[1])
     # print(resTime)
-    for item in resTime:
-        if item[1] == 0:
-            resTime.remove(item)
+    for i in range(len(resTime)-1,-1,-1):
+        if resTime[i][1] == 0:
+            resTime.remove(resTime[i])
     # 数据展示
     count = 1
     for item in resTime:
@@ -94,7 +94,7 @@ def update_linux_host(ip,domain):
     cmd = os.popen("echo %s %s >> /etc/hosts" %(ip,domain))
     cmd.close()
     # 核查是否写入成功
-    with open('/etc/hosts','r') as f:
+    with open('/etc/hosts','r',encoding='utf-8') as f:
         if f.readlines()[-1].strip() == ip + ' ' + domain:
             print("HOST UPDATE SUCCESS\n")
         else:
@@ -106,12 +106,12 @@ def update_win_host(ip,domain):
     :param ip:
     :param domain:
     """
-    fr = open('C:\\Windows\\System32\\drivers\\etc\\hosts','r')
+    fr = open('C:\\Windows\\System32\\drivers\\etc\\hosts','r',encoding='utf-8')
     data = fr.read()
     fr.close()
     # 若内容存在则替换
     if domain in data:
-        fw = open('C:\\Windows\\System32\\drivers\\etc\\hosts', 'w')
+        fw = open('C:\\Windows\\System32\\drivers\\etc\\hosts', 'w',encoding='utf-8')
         for line in data.splitlines():
             if domain in line:
                 line = ip + '\t' + domain
@@ -119,11 +119,11 @@ def update_win_host(ip,domain):
         fw.close()
     # 若不存在则添加
     else:
-        fa = open('C:\\Windows\\System32\\drivers\\etc\\hosts', 'a')
+        fa = open('C:\\Windows\\System32\\drivers\\etc\\hosts', 'a',encoding='utf-8')
         fa.write('\n'+ ip + '\t' + domain)
         fa.close()
     # 判断是否添加成功
-    fr = open('C:\\Windows\\System32\\drivers\\etc\\hosts', 'r')
+    fr = open('C:\\Windows\\System32\\drivers\\etc\\hosts', 'r',encoding='utf-8')
     data = fr.read()
     fr.close()
     if ip + '\t' + domain in data:
@@ -139,7 +139,7 @@ if __name__ == '__main__':
 
     update_url(PATH)
 
-    with open(PATH, 'r') as f:
+    with open(PATH, 'r',encoding='utf-8') as f:
         for line in f:
             ipList.append(line.strip())
 
